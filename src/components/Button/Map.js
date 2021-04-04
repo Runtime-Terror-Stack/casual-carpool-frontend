@@ -50,7 +50,10 @@ const MyMap = ()=>{
         
     // })
     return(
-        <div className="test">
+        <div className="map-test">
+            <div className="sidebar">
+            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+            </div>
             <div className="map-container" ref={mapContainer} />
         </div>
     )
