@@ -1,3 +1,6 @@
+html,body{
+  height: 100%
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -15,4 +18,15 @@ code {
 .App {
   display:grid;
   place-items: center;
+}
+#root{
+  width:100%;
+  height: 100%;
+}
+.map-container {
+  position: absolute;
+  top: 30%;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
 }
