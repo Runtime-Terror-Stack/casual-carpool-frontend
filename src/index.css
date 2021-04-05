@@ -35,7 +35,17 @@ code {
   margin: 12px;
   background-color: #404040;
   color: #ffffff;
-  z-index: 5 !important;
+  z-index: 2 !important;
   padding: 6px;
   font-weight: bold;
+}
+#marker{
+  display: inline-block;
+  background-color: transparent;
+  position: absolute;
+  top:50%;
+  left:50%;
+  height: 48px;
+  width: 48px;
+  z-index: 3;
 }

@@ -54,7 +54,10 @@ const MyMap = ()=>{
             <div className="sidebar">
             Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
             </div>
+            {/* run npm install -g http-server. Next go to common/image in cmd and run http-server ./ 
+            replace below url with the one you get */}
             <div className="map-container" ref={mapContainer} />
+            <img src="http://192.168.1.4:8080/marker.png" id="marker"/>
         </div>
     )
 }
