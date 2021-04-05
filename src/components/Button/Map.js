@@ -28,15 +28,16 @@ const MyMap = ()=>{
     mapboxgl.workerClass = MapboxWorker;
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2h1dnJvOTciLCJhIjoiY2pubjJ4bzA1MjI4bTNxb2pwcmV4OXE4byJ9.4XJJfg7_arK7gXzDMXEpBQ';
     const mapContainer = useRef(null);
-    const [lng, setLng] = useState(78.9629);
-    const [lat, setLat] = useState(20.5937);
-    const [zoom, setZoom] = useState(3.5);
+    const [lng, setLng] = useState(88.4509);
+    const [lat, setLat] = useState(22.6964);
+    const [zoom, setZoom] = useState(18);
     useEffect(() => {
         const map = new mapboxgl.Map({
           container: mapContainer.current,
           style: "mapbox://styles/shuvro97/ckn27edc22thl17ms9epngrtx",
           center: [lng, lat],
           zoom: zoom,
+          maxZoom:19 ,
         });
         map.on('move', () => {
             setLng(map.getCenter().lng.toFixed(4));
