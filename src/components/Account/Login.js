@@ -1,55 +1,49 @@
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
-  LoginContainer,
-  FormContainer,
-  StyledInput,
-  StyledLabel,
-  InputContainer,
+  AccountContainer,
+  FormContainerLogin,
   StyledButton,
   ButtonContainer,
   StyledHeading,
   StyledText,
-} from "./Login.styles";
-import React from "react";
-import PropTypes from "prop-types";
+} from "./Account.styles";
+import OTPVerify from "./OTPVerify";
+import { InputBox } from "./Register";
 
-const InputBox = (props) => {
-  return (
-    <InputContainer id={props.gridarea}>
-      <StyledLabel htmlFor={props.id}>{props.text}</StyledLabel>
-      <StyledInput
-        type="text"
-        id={props.id}
-        name={props.id}
-        placeholder={props.text}
-        required
-        minlength="4"
-        maxlength="8"
-      />
-    </InputContainer>
-  );
-};
+const LoginForm = ({ eventHandler }) => (
+  <FormContainerLogin onSubmit={eventHandler}>
+    <InputBox
+      id="phone"
+      text="Mobile Number"
+      gridarea="phonenum"
+      minlength="10"
+      maxlength="10"
+    />
+    <ButtonContainer>
+      <StyledButton>Submit</StyledButton>
+    </ButtonContainer>
+    <StyledText>Not registered? </StyledText>
+  </FormContainerLogin>
+);
 
 const Login = () => {
+  const [otpflag, setotpflag] = useState(false);
+
+  const loginHandler = (event) => {
+    event.preventDefault();
+    setotpflag(true);
+  };
   return (
-    <LoginContainer>
-      <StyledHeading>Sign Up</StyledHeading>
-      <FormContainer>
-        <InputBox id="fname" text="First Name" gridarea="firstname" />
-        <InputBox id="lname" text="Last Name" gridarea="lastname" />
-        <InputBox id="phone" text="Mobile Number" gridarea="phonenum" />
-        <ButtonContainer>
-          <StyledButton>Submit</StyledButton>
-        </ButtonContainer>
-        <StyledText>Already registered? </StyledText>
-      </FormContainer>
-    </LoginContainer>
+    <AccountContainer>
+      <StyledHeading>Sign In</StyledHeading>
+      {otpflag ? <OTPVerify /> : <LoginForm eventHandler={loginHandler} />}
+    </AccountContainer>
   );
 };
 
 export default Login;
 
-InputBox.propTypes = {
-  id: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  gridarea: PropTypes.string.isRequired,
+LoginForm.propTypes = {
+  eventHandler: PropTypes.func.isRequired,
 };
