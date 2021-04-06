@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
-export const StyledHeading = styled.h2``;
+export const StyledHeading = styled.h2`
+  text-align: center;
+`;
 
-export const LoginContainer = styled.section`
+export const AccountContainer = styled.section`
   padding: 20px;
   display: grid;
-  place-items: center;
+  /* place-items: center; */
   background-color: whitesmoke;
   border-radius: 10px;
+  width: 368px;
+  height: 408px;
 `;
 
 export const FormContainer = styled.form`
@@ -22,9 +26,21 @@ export const FormContainer = styled.form`
   grid-row-gap: 15px;
 `;
 
+export const FormContainerLogin = styled.form`
+  margin: 0;
+  display: grid;
+  grid-template-areas:
+    "phonenum"
+    "submit";
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-row-gap: 15px;
+`;
+
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   grid-area: ${(props) => props.id};
 `;
 
@@ -60,6 +76,7 @@ export const StyledButton = styled.button`
   color: white;
   width: 100%;
   height: 80%;
+  max-height: 52px;
   text-transform: uppercase;
   font-weight: 600;
   cursor: pointer;
