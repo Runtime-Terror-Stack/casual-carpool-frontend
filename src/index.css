@@ -40,12 +40,7 @@ code {
   font-weight: bold;
 }
 #marker{
-  display: inline-block;
-  background-color: transparent;
-  position: absolute;
-  top:50%;
-  left:50%;
-  height: 48px;
-  width: 48px;
-  z-index: 3;
+  height: 40px;
+  width: 40px;
+  z-index: 2;
 }

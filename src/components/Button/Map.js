@@ -28,6 +28,7 @@ const MyMap = ()=>{
     mapboxgl.workerClass = MapboxWorker;
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2h1dnJvOTciLCJhIjoiY2pubjJ4bzA1MjI4bTNxb2pwcmV4OXE4byJ9.4XJJfg7_arK7gXzDMXEpBQ';
     const mapContainer = useRef(null);
+    const markRef = useRef(null);
     const [lng, setLng] = useState(88.4509);
     const [lat, setLat] = useState(22.6964);
     const [zoom, setZoom] = useState(18);
@@ -39,10 +40,13 @@ const MyMap = ()=>{
           zoom: zoom,
           maxZoom:19 ,
         });
+        const marker=new mapboxgl.Marker(markRef.current).setLngLat([88.4509,22.6964]).addTo(map);
+        new mapboxgl.Marker().setLngLat([88.4509,22.6964]).addTo(map);
         map.on('move', () => {
             setLng(map.getCenter().lng.toFixed(4));
             setLat(map.getCenter().lat.toFixed(4));
             setZoom(map.getZoom().toFixed(2));
+            marker.setLngLat(map.getCenter());
             });
         return () => map.remove();
       }, []);
@@ -58,7 +62,7 @@ const MyMap = ()=>{
             {/* run npm install -g http-server. Next go to common/image in cmd and run http-server ./ 
             replace below url with the one you get */}
             <div className="map-container" ref={mapContainer} />
-            <img src="http://192.168.1.4:8080/marker.png" id="marker"/>
+            <img src="http://192.168.1.8:8080/marker.png" id="marker" ref={markRef}/>
         </div>
     )
 }
