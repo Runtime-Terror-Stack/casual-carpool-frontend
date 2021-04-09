@@ -32,9 +32,11 @@ const MyMap = () => {
     "pk.eyJ1Ijoic2h1dnJvOTciLCJhIjoiY2pubjJ4bzA1MjI4bTNxb2pwcmV4OXE4byJ9.4XJJfg7_arK7gXzDMXEpBQ";
   const mapContainer = useRef(null);
   const markRef = useRef(null);
-  const [lng, setLng] = useState(88.4509);
-  const [lat, setLat] = useState(22.6964);
-  const [zoom, setZoom] = useState(18);
+  const [lng, setLng] = useState(88.45090000001005);// longitude of map center
+  const [lat, setLat] = useState(22.696444526204303);// latitude of map center
+  const [zoom, setZoom] = useState(18);// map zoom level
+  const [func,setFunc] = useState(() => () => null)// function to center the map on button click
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
@@ -43,16 +45,28 @@ const MyMap = () => {
       zoom: zoom,
       maxZoom: 19,
     });
+    // creating the function that centers the map on button click
+    setFunc(()=>()=>{
+      map.flyTo({center:[88.45090000001005, 22.696444526204303],zoom:18})
+    })
+
+    // marker that always points to the center of the map. Initially points to user's current gps location
     const marker = new mapboxgl.Marker(markRef.current)
-      .setLngLat([88.4509, 22.6964])
+      .setLngLat([map.getCenter().lng,map.getCenter().lat])
       .addTo(map);
-    new mapboxgl.Marker().setLngLat([88.4509, 22.6964]).addTo(map);
+
+    // marker that always points to user's current gps location
+    new mapboxgl.Marker().setLngLat([marker.getLngLat().lng+0.00000000006418, marker.getLngLat().lat-0.000051947384421]).addTo(map);
+    
+    // when user moves map changing the center coordinates and making the marker point to new center
     map.on("move", () => {
-      setLng(map.getCenter().lng.toFixed(4));
-      setLat(map.getCenter().lat.toFixed(4));
+      setLng(map.getCenter().lng);
+      setLat(map.getCenter().lat);
       setZoom(map.getZoom().toFixed(2));
       marker.setLngLat(map.getCenter());
     });
+
+    // fucntion for when component unmounts
     return () => map.remove();
   }, []);
 
@@ -62,7 +76,8 @@ const MyMap = () => {
   return (
     <div className="map-test">
       <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        Longitude: {lng.toFixed(4)} | Latitude: {lat.toFixed(4)} | Zoom: {zoom}
+        <button onClick={()=>{func()}}>B</button>
       </div>
       {/* run npm install -g http-server. Next go to common/image in cmd and run http-server ./ 
             replace below url with the one you get */}
