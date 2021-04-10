@@ -62,7 +62,7 @@ const MyMap = () => {
     // when user moves map changing the center coordinates and making the marker point to new center
     map.on("move", (e) => {
       // console.log(e)
-      if( e.originalEvent=== undefined || e.originalEvent.type !== "wheel")
+      if( e.originalEvent === undefined || e.originalEvent.type !== "wheel")
       {
         setLng(map.getCenter().lng);
         setLat(map.getCenter().lat);
@@ -70,6 +70,12 @@ const MyMap = () => {
         
         if(e.originalEvent !== undefined || marker.getLngLat().lng !== marker2.getLngLat().lng || marker.getLngLat().lat !== marker2.getLngLat().lat)
           marker.setLngLat(map.getCenter());
+      }
+      else if(e.originalEvent.type === "wheel")
+      {
+        setLng(marker.getLngLat().lng);
+        setLat(marker.getLngLat().lat);
+        map.setCenter([marker.getLngLat().lng,marker.getLngLat().lat]);
       }
       
       
