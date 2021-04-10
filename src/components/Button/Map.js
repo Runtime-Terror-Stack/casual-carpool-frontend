@@ -52,22 +52,26 @@ const MyMap = () => {
 
     // marker that always points to the center of the map. Initially points to user's current gps location
     const marker = new mapboxgl.Marker() // markRef.current
-      .setLngLat([map.getCenter().lng,map.getCenter().lat])
+      .setLngLat([88.45090000001005, 22.696444526204303])
       .addTo(map);
 
     // marker that always points to user's current gps location
     // new mapboxgl.Marker().setLngLat([marker.getLngLat().lng+0.00000000006418, marker.getLngLat().lat-0.000051947384421]).addTo(map);
-    new mapboxgl.Marker({color:"red"}).setLngLat([88.45090000001005, 22.696444526204303]).addTo(map);
+    const marker2 = new mapboxgl.Marker({color:"red"}).setLngLat([88.45090000001005, 22.696444526204303]).addTo(map);
 
     // when user moves map changing the center coordinates and making the marker point to new center
     map.on("move", (e) => {
-      if( e.originalEvent=== undefined ||  e.originalEvent.type !== "wheel")
+      // console.log(e)
+      if( e.originalEvent=== undefined || e.originalEvent.type !== "wheel")
       {
         setLng(map.getCenter().lng);
         setLat(map.getCenter().lat);
         setZoom(map.getZoom().toFixed(2));
-        marker.setLngLat(map.getCenter());
+        
+        if(e.originalEvent !== undefined || marker.getLngLat().lng !== marker2.getLngLat().lng || marker.getLngLat().lat !== marker2.getLngLat().lat)
+          marker.setLngLat(map.getCenter());
       }
+      
       
     });
 
