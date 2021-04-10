@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl-csp";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import MapboxWorker from "worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker";
-import markerimg from "../../image/marker.png";
+// import markerimg from "../../image/marker.png";
 
 // const MyMap = ()=> {
 //     const [viewport, setViewport] = useState({
@@ -31,7 +31,7 @@ const MyMap = () => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2h1dnJvOTciLCJhIjoiY2pubjJ4bzA1MjI4bTNxb2pwcmV4OXE4byJ9.4XJJfg7_arK7gXzDMXEpBQ";
   const mapContainer = useRef(null);
-  const markRef = useRef(null);
+  // const markRef = useRef(null);
   const [lng, setLng] = useState(88.45090000001005);// longitude of map center
   const [lat, setLat] = useState(22.696444526204303);// latitude of map center
   const [zoom, setZoom] = useState(18);// map zoom level
@@ -51,19 +51,24 @@ const MyMap = () => {
     })
 
     // marker that always points to the center of the map. Initially points to user's current gps location
-    const marker = new mapboxgl.Marker(markRef.current)
+    const marker = new mapboxgl.Marker() // markRef.current
       .setLngLat([map.getCenter().lng,map.getCenter().lat])
       .addTo(map);
 
     // marker that always points to user's current gps location
-    new mapboxgl.Marker().setLngLat([marker.getLngLat().lng+0.00000000006418, marker.getLngLat().lat-0.000051947384421]).addTo(map);
-    
+    // new mapboxgl.Marker().setLngLat([marker.getLngLat().lng+0.00000000006418, marker.getLngLat().lat-0.000051947384421]).addTo(map);
+    new mapboxgl.Marker({color:"red"}).setLngLat([88.45090000001005, 22.696444526204303]).addTo(map);
+
     // when user moves map changing the center coordinates and making the marker point to new center
-    map.on("move", () => {
-      setLng(map.getCenter().lng);
-      setLat(map.getCenter().lat);
-      setZoom(map.getZoom().toFixed(2));
-      marker.setLngLat(map.getCenter());
+    map.on("move", (e) => {
+      if( e.originalEvent=== undefined ||  e.originalEvent.type !== "wheel")
+      {
+        setLng(map.getCenter().lng);
+        setLat(map.getCenter().lat);
+        setZoom(map.getZoom().toFixed(2));
+        marker.setLngLat(map.getCenter());
+      }
+      
     });
 
     // fucntion for when component unmounts
@@ -82,7 +87,7 @@ const MyMap = () => {
       {/* run npm install -g http-server. Next go to common/image in cmd and run http-server ./ 
             replace below url with the one you get */}
       <div className="map-container" ref={mapContainer} />
-      <img src={markerimg} id="marker" ref={markRef} />
+      {/* <img src={markerimg} id="marker" ref={markRef} /> */}
     </div>
   );
 };
