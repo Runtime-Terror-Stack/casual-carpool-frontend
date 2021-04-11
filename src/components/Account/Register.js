@@ -8,9 +8,12 @@ import {
   ButtonContainer,
   StyledHeading,
   StyledText,
+  ReCAPTCHAContainer,
 } from "./Account.styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import firebase from "../../firebase";
+import OTPVerify from "./OTPVerify";
 
 export const InputBox = (props) => {
   return (
@@ -29,25 +32,75 @@ export const InputBox = (props) => {
   );
 };
 
+const RegisterForm = ({ eventHandler }) => (
+  <FormContainer onSubmit={eventHandler}>
+    <InputBox id="fname" text="First Name" gridarea="firstname" />
+    <InputBox id="lname" text="Last Name" gridarea="lastname" />
+    <InputBox
+      id="phone"
+      text="Mobile Number"
+      gridarea="phonenum"
+      minlength={10}
+      maxlength={10}
+    />
+    <ButtonContainer>
+      <ReCAPTCHAContainer id="sign-in-button" />
+      <StyledButton>Submit</StyledButton>
+    </ButtonContainer>
+    <StyledText>Already registered? </StyledText>
+  </FormContainer>
+);
+
 const Register = () => {
+  const [otpflag, setotpflag] = useState(false);
+
+  useEffect(() => {
+    console.log("in useeffect");
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          console.log("in response");
+          console.log(response);
+          // onSignInSubmit();
+        },
+      }
+    );
+  }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.dir(
+      event.target.elements.fname.value,
+      event.target.elements.lname.value
+    );
+    console.dir(event.target.elements.phone.value);
+
+    const phoneNumber = "+911234567890";
+    const appVerifier = window.recaptchaVerifier;
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        setotpflag(true);
+        // ...
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        // ...
+        console.log(error);
+      });
+  };
+
   return (
     <AccountContainer>
       <StyledHeading>Sign Up</StyledHeading>
-      <FormContainer>
-        <InputBox id="fname" text="First Name" gridarea="firstname" />
-        <InputBox id="lname" text="Last Name" gridarea="lastname" />
-        <InputBox
-          id="phone"
-          text="Mobile Number"
-          gridarea="phonenum"
-          minlength="10"
-          maxlength="10"
-        />
-        <ButtonContainer>
-          <StyledButton>Submit</StyledButton>
-        </ButtonContainer>
-        <StyledText>Already registered? </StyledText>
-      </FormContainer>
+      {otpflag ? <OTPVerify /> : <RegisterForm eventHandler={handleSubmit} />}
     </AccountContainer>
   );
 };
@@ -60,4 +113,8 @@ InputBox.propTypes = {
   gridarea: PropTypes.string.isRequired,
   minlength: PropTypes.number,
   maxlength: PropTypes.number,
+};
+
+RegisterForm.propTypes = {
+  eventHandler: PropTypes.func.isRequired,
 };
