@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "./components/Account/Login";
+// import Login from "./components/Account/Login";
 // import OTPVerify from "./components/Account/OTPVerify";
 // import Button from "./components/Button/Button";
 // import TestService from "./services/TestService";
@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <h1>Casual Carpool</h1>
       <Register />
-      <Login />
+      {/* <Login /> */}
       {/* <OTPVerify /> */}
     </div>
   );
