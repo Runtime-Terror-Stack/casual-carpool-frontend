@@ -87,3 +87,7 @@ export const StyledText = styled.p`
   color: black;
   font-size: 0.7rem;
 `;
+
+export const ReCAPTCHAContainer = styled.div`
+  display: none;
+`;
