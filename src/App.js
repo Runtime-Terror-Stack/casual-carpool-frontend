@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./components/Button/Button";
-import MyMap from "./components/Button/Map";
+import MyMap from "./components/Button/Map2";
 import TestService from "./services/TestService";
 
 function App() {
