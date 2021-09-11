@@ -78,6 +78,15 @@ const MyMap = () => {
         map.setCenter([marker.getLngLat().lng,marker.getLngLat().lat]);
       }
       });
+
+      // map.on('click',(e)=>{
+      //   console.log(e.lngLat.lng,e.lngLat.lat)
+      //   setLng(e.lngLat.lng);
+      //   setLat(e.lngLat.lat);
+      //   // marker.setLngLat(map.getCenter());
+      //   map.setCenter([e.lngLat.lng,e.lngLat.lat])
+      // })
+
       return () => {
         if(map) {
           map.removeControl(geolocate);
