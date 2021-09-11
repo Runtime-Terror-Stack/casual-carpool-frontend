@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "./components/Button/Button";
-// import MyMap from "./components/Button/Map2";
+import MyMap from "./components/Button/Map2";
 import TestService from "./services/TestService";
-import RideInputs from "./components/Button/RideInputs";
+// import RideInputs from "./components/Button/RideInputs";
 function App() {
   return (
     <div id="test">
@@ -14,8 +14,8 @@ function App() {
       <Button name="Update Value" clickHandler={TestService.updateValue} />
       <Button name="Delete Value" clickHandler={TestService.deleteValue} />
     </div>
-    <RideInputs/>
-    {/* <MyMap /> */}
+    {/* <RideInputs/> */}
+    <MyMap />
     </div>
   );
 }
