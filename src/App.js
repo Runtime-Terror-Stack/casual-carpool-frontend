@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./components/Button/Button";
 import MyMap from "./components/Button/Map2";
+import MapPointSelect from "./components/Button/MapPointSelect";
 import TestService from "./services/TestService";
 // import RideInputs from "./components/Button/RideInputs";
 function App() {
@@ -16,6 +17,7 @@ function App() {
     </div>
     {/* <RideInputs/> */}
     <MyMap />
+    <MapPointSelect/>
     </div>
   );
 }
