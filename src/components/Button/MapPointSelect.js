@@ -24,7 +24,7 @@ const MapPointSelect = () => {
   //   navigator.geolocation.getCurrentPosition((pos)=>{setLng(pos.coords.longitude);setLat(pos.coords.latitude)})
   // })
 
-  const start = [88.45090000001005, 22.696444526204303];
+  const [start,setStart] = useState([88.45090000001005, 22.696444526204303]);
   // create a function to make a directions request
   async function getRoute(end) {
     // make a directions request using cycling profile
@@ -76,6 +76,7 @@ const MapPointSelect = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setCenter([pos.coords.longitude, pos.coords.latitude]);
+        setStart([pos.coords.longitude, pos.coords.latitude]);
         setLng(pos.coords.longitude);
         setLat(pos.coords.latitude);
       },
@@ -111,7 +112,7 @@ const MapPointSelect = () => {
       map.addControl(geolocate);
 
       map.on("load", function () {
-        geolocate.trigger();
+        // geolocate.trigger();
         // make an initial directions request that
         // starts and ends at the same location
         getRoute(start);
