@@ -64,7 +64,7 @@ const MapPointSelect = () => {
         },
         paint: {
           "line-color": "#3887be",
-          "line-width": 5,
+          "line-width": 3,
           "line-opacity": 0.75,
         },
       });
