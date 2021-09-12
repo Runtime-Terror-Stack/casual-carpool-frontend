@@ -25,13 +25,14 @@ const MapPointSelect = () => {
   // })
 
   const [start,setStart] = useState([88.45090000001005, 22.696444526204303]);
+  // const [endPoint, setEndPoint] = useState();
   // create a function to make a directions request
   async function getRoute(end) {
     // make a directions request using cycling profile
     // an arbitrary start will always be the same
     // only the end or destination will change
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/cycling/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
       { method: "GET" }
     );
     const json = await query.json();
@@ -108,46 +109,54 @@ const MapPointSelect = () => {
           // enableHighAccuracy: true
         },
         // trackUserLocation: true
+        // showUserLocation : false
+        showAccuracyCircle:false
       });
       map.addControl(geolocate);
 
       map.on("load", function () {
-        // geolocate.trigger();
+        geolocate.trigger();
         // make an initial directions request that
         // starts and ends at the same location
         getRoute(start);
 
         // Add starting point to the map
-        map.addLayer({
-          id: "point",
-          type: "circle",
-          source: {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  properties: {},
-                  geometry: {
-                    type: "Point",
-                    coordinates: start,
-                  },
-                },
-              ],
-            },
-          },
-          paint: {
-            "circle-radius": 10,
-            "circle-color": "#3887be",
-          },
-        });
+        // map.addLayer({
+        //   id: "start",
+        //   type: "circle",
+        //   source: {
+        //     type: "geojson",
+        //     data: {
+        //       type: "FeatureCollection",
+        //       features: [
+        //         {
+        //           type: "Feature",
+        //           properties: {},
+        //           geometry: {
+        //             type: "Point",
+        //             coordinates: start,
+        //           },
+        //         },
+        //       ],
+        //     },
+        //   },
+        //   paint: {
+        //     "circle-radius": 10,
+        //     "circle-color": "#3887be",
+        //   },
+        // });
+
       });
 
       const marker = new mapboxgl.Marker() // markRef.current
         .setLngLat(center)
         .addTo(map);
+
+      
       const marker2 = new mapboxgl.Marker({ color: "red" }).setLngLat(center);
+      // let endPointMarker = new mapboxgl.Marker();
+
+      // const endPoint
       map.on("click", ({ lngLat }) => {
         const coords = Object.keys(lngLat).map((key) => lngLat[key]);
         const end = {
@@ -163,6 +172,40 @@ const MapPointSelect = () => {
             },
           ],
         };
+
+        // if(endPointMarker){
+        //     console.log('i am here');
+        //     // endPoint.remove();
+        //     endPointMarker.remove();
+            
+        // }
+        // for (const marker of end.features) {
+          // Create a DOM element for each marker.
+        //   const el = document.createElement("div");
+          //   const width = marker.properties.iconSize[0];
+          //   const height = marker.properties.iconSize[1];
+        //   el.className = "marker";
+        //   el.style.backgroundImage = `url(https://placekitten.com/g/50/50/)`;
+        //   el.style.width = `50px`;
+        //   el.style.height = `50px`;
+        //   el.style.backgroundSize = "100%";
+
+        //   el.addEventListener("click", () => {
+        //     window.alert(marker.properties.message);
+        //   });
+
+          // Add markers to the map.
+        //   setEndPoint(
+        //     new mapboxgl.Marker(el)
+        //       .setLngLat(marker.geometry.coordinates)
+        //       .addTo(map)
+        //   );
+        //   endPointMarker = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+        // }
+        // const markerEnd = new mapboxgl.Marker() // markRef.current
+        //   .setLngLat(coords)
+        //   .addTo(map);
+
         if (map.getLayer("end")) {
           map.getSource("end").setData(end);
         } else {
@@ -186,10 +229,15 @@ const MapPointSelect = () => {
               },
             },
             paint: {
-              "circle-radius": 10,
-              "circle-color": "#f30",
+              "circle-radius": 8,
+              "circle-color": "red",
+              "circle-stroke-color": "black",
+              "circle-stroke-width": 2,
             },
           });
+        //   new mapboxgl.Marker('<div>kkk</div>')
+        //     .setLngLat(marker.geometry.coordinates)
+        //     .addTo(map);
         }
         getRoute(coords);
       });
@@ -231,6 +279,7 @@ const MapPointSelect = () => {
         if (map) {
           map.removeControl(geolocate);
           marker.remove();
+        //   markerEnd.remove();
         }
       };
     }
